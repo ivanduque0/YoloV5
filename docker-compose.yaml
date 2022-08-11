@@ -1,0 +1,24 @@
+
+version: '3.3'
+
+services:
+
+  yolo:
+
+      image: 2eda79ec9e2e
+
+      container_name: yolo
+      
+      environment:
+         - DISPLAY=unix$DISPLAY
+      
+      command: python3 detect.py --weights modeloYOLOV5.pt --source http://192.168.21.126:8080/?action=stream
+
+      volumes:
+         - .:/usr/src/app
+         - /tmp/.X11-unix:/tmp/.X11-unix
+         - /tmp/.docker.xauth:/tmp/.docker.xauth
+         
+      privileged: true
+
+# docker run -it -e DISPLAY=$DISPLAY -v $XSOCK:$XSOCK -v $XAUTH:$XAUTH -e XAUTHORITY=$XAUTH -v /home/seguricel/Desktop/yolov5:/usr/src/app 2eda79ec9e2e python3 detect.py --weights modeloYOLOV5.pt --source http://192.168.21.126:8080/?action=stream
