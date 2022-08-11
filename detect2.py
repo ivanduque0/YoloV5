@@ -26,7 +26,6 @@ Usage - formats:
 
 import argparse
 import os
-import platform
 import sys
 from pathlib import Path
 import psycopg2
@@ -52,6 +51,10 @@ spoofing=0
 conn = None
 cursor=None
 total=0
+acceso= os.environ.get("ACCESO")
+camara= os.environ.get("HOSTSNAPSHOOT")
+# acceso='1'
+# camara='http://192.168.21.126:8080/?action=snapshot'
 
 @torch.no_grad()
 def run(
@@ -155,11 +158,10 @@ def run(
 
                 #spoofingdb=spoofingdb2
                 if spoofing ==1:
-                    #cursor.execute('UPDATE antisp SET spoofing=%s WHERE acceso=%s', (spoofing, os.environ.get("ACCESO")))
-                    cursor.execute('UPDATE antisp SET spoofing=1 WHERE acceso=1')
+                    cursor.execute('UPDATE antisp SET spoofing=1 WHERE acceso=%s', (acceso, ))
                     conn.commit()
                 else:
-                    cursor.execute('UPDATE antisp SET spoofing=0 WHERE acceso=1')
+                    cursor.execute('UPDATE antisp SET spoofing=0 WHERE acceso=%s', (acceso, ))
                     conn.commit()
         
 
@@ -167,7 +169,7 @@ def run(
 def parse_opt():
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'yolov5s.pt', help='model path(s)')
-    parser.add_argument('--source', type=str, default='http://192.168.21.126:8080/?action=snapshot', help='file/dir/URL/glob, 0 for webcam')
+    parser.add_argument('--source', type=str, default=camara, help='file/dir/URL/glob, 0 for webcam')
     parser.add_argument('--data', type=str, default='', help='(optional) dataset.yaml path')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
     parser.add_argument('--conf-thres', type=float, default=0.25, help='confidence threshold')
@@ -214,19 +216,12 @@ if __name__ == "__main__":
         total=0
 
         try:
-            # conn = psycopg2.connect(
-            #     database=os.environ.get("DATABASE"), 
-            #     user=os.environ.get("USERDB"), 
-            #     password=os.environ.get("PASSWORD"), 
-            #     host=os.environ.get("HOST"), 
-            #     port=os.environ.get("PORT")
-            # )
             conn = psycopg2.connect(
-                database='tesis', 
-                user='tesis', 
-                password='tesis', 
-                host='192.168.21.141', 
-                port='44'
+                database=os.environ.get("DATABASE"), 
+                user=os.environ.get("USERDB"), 
+                password=os.environ.get("PASSWORD"), 
+                host=os.environ.get("HOST"), 
+                port=os.environ.get("PORT")
             )
             conn.autocommit = False
             cursor = conn.cursor()
@@ -238,9 +233,6 @@ if __name__ == "__main__":
             print("fallo en hacer las consultas")
             total=0
             spoofing = 0
-            nospoofing = 0
-            spoofingdb = 0
-            nospoofingdb = 0
 
         finally:
             if conn:
@@ -249,8 +241,6 @@ if __name__ == "__main__":
                 print("se ha cerrado la conexion a la base de datos")
                 total=0
                 spoofing = 0
-                nospoofing = 0
-                spoofingdb = 0
-                nospoofingdb = 0
+ 
 
        
