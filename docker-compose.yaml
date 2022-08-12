@@ -11,8 +11,16 @@ services:
       
       environment:
          - DISPLAY=unix$DISPLAY
+         - HOSTSNAPSHOOT=http://192.168.21.126:8080/?action=snapshot
+         - ACCESO=1
+         - DATABASE=tesis
+         - USERDB=tesis
+         - PASSWORD=tesis
+         - HOST=192.168.21.141
+         - PORT=44
+
       
-      command: python3 detect.py --weights modeloYOLOV5.pt --source http://192.168.21.126:8080/?action=stream
+      command: ["apt install -y libglib2.0-0 libpython3.8-dev libpq-dev build-essential" , "pip install -r requirements.txt", "python3 detect.py --weights modeloYOLOV5.pt"]
 
       volumes:
          - .:/usr/src/app

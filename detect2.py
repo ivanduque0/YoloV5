@@ -59,7 +59,7 @@ camara= os.environ.get("HOSTSNAPSHOOT")
 @torch.no_grad()
 def run(
         weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
-        source='',  # file/dir/URL/glob, 0 for webcam
+        source=camara,  # file/dir/URL/glob, 0 for webcam
         data='',  # dataset.yaml path
         imgsz=(640, 640),  # inference size (height, width)
         conf_thres=0.25,  # confidence threshold
@@ -127,7 +127,7 @@ def run(
         # dt[0] += t2 - t1
 
         #cursor.execute('SELECT * FROM sensor WHERE acceso=%s', (os.environ.get("ACCESO"),))
-        cursor.execute('SELECT * FROM sensor WHERE acceso=1')
+        cursor.execute('SELECT * FROM sensor WHERE acceso=%s', (acceso, ))
         sensor_onoff = cursor.fetchall()
         #print(sensor_onoff)
         if sensor_onoff[0][0] == 1:
@@ -150,10 +150,10 @@ def run(
                 
                     
                 if len(det):
-                    print('falso')
+                    #print('falso')
                     spoofing=0
                 else:
-                    print('verdadero')
+                    #rint('verdadero')
                     spoofing=1
 
                 #spoofingdb=spoofingdb2

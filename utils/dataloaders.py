@@ -338,10 +338,8 @@ class LoadStreams:
                 assert not is_kaggle(), '--source 0 webcam unsupported on Kaggle. Rerun command in a local environment.'
             cap = cv2.VideoCapture(s)
             assert cap.isOpened(), f'{st}Failed to open {s}'
-            # h = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-            # w = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-            # print(h)
-            # print(w)
+            #h = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+            #w = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
             fps = cap.get(cv2.CAP_PROP_FPS)  # warning: may return 0 or nan
             self.frames[i] = max(int(cap.get(cv2.CAP_PROP_FRAME_COUNT)), 0) or float('inf')  # infinite stream fallback
             self.fps[i] = max((fps if math.isfinite(fps) else 0) % 100, 0) or 30  # 30 FPS fallback
@@ -349,7 +347,6 @@ class LoadStreams:
             _, self.imgs[i] = cap.read()  # guarantee first frame
             self.threads[i] = Thread(target=self.update, args=([i, s]), daemon=True)
             #LOGGER.info(f"{st} Success ({self.frames[i]} frames {w}x{h} at {self.fps[i]:.2f} FPS)")
-            #print(s)
             self.threads[i].start()
         #LOGGER.info('')  # newline
 
