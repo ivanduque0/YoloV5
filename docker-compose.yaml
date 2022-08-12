@@ -5,7 +5,7 @@ services:
 
   yolo:
 
-      image: 2eda79ec9e2e
+      image: antispoofingyolo:V0.1
 
       container_name: yolo
       
@@ -20,7 +20,7 @@ services:
          - PORT=44
 
       
-      command: ["apt install -y libglib2.0-0 libpython3.8-dev libpq-dev build-essential" , "pip install -r requirements.txt", "python3 detect.py --weights modeloYOLOV5.pt"]
+      command: python3 detect2.py --weights modeloYOLOV5.pt --img 416 --conf 0.3
 
       volumes:
          - .:/usr/src/app
