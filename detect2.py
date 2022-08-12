@@ -150,10 +150,10 @@ def run(
                 
                     
                 if len(det):
-                    #print('falso')
+                    print('falso')
                     spoofing=0
                 else:
-                    #rint('verdadero')
+                    print('verdadero')
                     spoofing=1
 
                 #spoofingdb=spoofingdb2
