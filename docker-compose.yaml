@@ -5,7 +5,7 @@ services:
 
   yolo:
 
-      image: antispoofingyolo:V0.1
+      image: ivanduque0/antispoofingyolo:V0.1
 
       container_name: yolo
       
@@ -20,7 +20,7 @@ services:
          - PORT=44
 
       
-      command: python3 detect2.py --weights modeloYOLOV5.pt --img 416 --conf 0.3
+      command: python3 codigo/detect2.py --weights modeloYOLOV5.pt --img 416 --conf 0.3
 
       volumes:
          - .:/usr/src/app
