@@ -376,6 +376,8 @@ class LoadStreams:
                 self.imgs[i] = im
             except:
                 print('no se encuentra la url')
+                im = []
+                break
             finally:
                 pass
         
